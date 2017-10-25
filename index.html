@@ -72,21 +72,21 @@
         var uri = 'api/products';
 
         $(document).ready(function () {
-            $.getJSON("books.json", function (data) {
-                $.each(data.books, function (i, item) {
-                 alert(item.author);
-                });
-            });
-
-            //$.ajax({
-            //    type: "get",
-            //    url: "books.json",
-            //    success: function (data) {
-            //        $.each(data.books, function (key, item) {
-            //            $('#book').append("<tr><td>" + item.title + "</td>" + "<td>" + item.publisher + "</td>" + "<td>" + item.author + "</td>" + "<td>" + item.cover + "</td></tr>");
-            //        });
-            //    }
+            //$.getJSON("books.json", function (data) {
+            //    $.each(data.books, function (i, item) {
+            //     alert(item.author);
+            //    });
             //});
+
+            $.ajax({
+                type: "get",
+                url: "books.json",
+                success: function (data) {
+                    $.each(data.books, function (key, item) {
+                        $('#book').append("<tr><td>" + item.title + "</td>" + "<td>" + item.publisher + "</td>" + "<td>" + item.author + "</td>" + "<td>" + item.cover + "</td></tr>");
+                    });
+                }
+            });
 
             //$.ajax({
             //    type: "get",
