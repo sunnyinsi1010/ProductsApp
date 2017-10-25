@@ -4,6 +4,31 @@
     <title>Product App</title>
 </head>
 <body>
+    <!--<script type="text/javascript">
+        var books = [
+            {
+                "title": "JavaScript, the Definitive Guide",
+                "publisher": "O'Reilly",
+                "author": "David Flanagan",
+                "cover": "/images/cover_defguide.jpg",
+                "blurb": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+            },
+            {
+                "title": "DOM Scripting",
+                "publisher": "Friends of Ed",
+                "author": "Jeremy Keith",
+                "cover": "/images/cover_domscripting.jpg",
+                "blurb": "Praesent et diam a ligula facilisis venenatis."
+            },
+            {
+                "title": "DHTML Utopia: Modern Web Design using JavaScript & DOM",
+                "publisher": "Sitepoint",
+                "author": "Stuart Langridge",
+                "cover": "/images/cover_utopia.jpg",
+                "blurb": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+            }
+        ];
+    </script>-->
 
     <div>
         <h2>All Products</h2>
@@ -17,13 +42,26 @@
     </div>
 
     <div>
-        <h2>Student</h2>
-        <table id="student" cellpadding="2" cellspacing="2" border="1" width="400px">
+        <table id="prod" cellpadding="2" cellspacing="2" border="1" >
             <tr>
-                <td style="background-color: gray; color: white">ID</td>
+                <!--<td style="background-color: gray; color: white">ID</td>
                 <td style="background-color: gray; color: white">Name</td>
                 <td style="background-color: gray; color: white">Category</td>
-                <td style="background-color: gray; color: white">Price</td>
+                <td style="background-color: gray; color: white">Price</td>-->
+                <td>ID</td>
+                <td>Name</td>
+                <td>Category</td>
+                <td>Price</td>
+            </tr>
+        </table>
+    </div> 
+    <div>
+        <table id="book" cellpadding="2" cellspacing="2" border="1">
+            <tr>
+                <td>Title</td>
+                <td>Publisher</td>
+                <td>Author</td>
+                <td>Cover</td>
             </tr>
         </table>
     </div> 
@@ -33,6 +71,22 @@
         var uri = 'api/products';
 
         $(document).ready(function () {
+            //$.getJSON("books.json", function (data) {
+            //    $.each(data.books, function (i, item) {
+            //     alert(item.author);
+            //    });
+            //});
+
+            $.ajax({
+                type: "get",
+                url: "books.json",
+                success: function (data) {
+                    $.each(data.books, function (key, item) {
+                        $('#book').append("<tr><td>" + item.title + "</td>" + "<td>" + item.publisher + "</td>" + "<td>" + item.author + "</td>" + "<td>" + item.cover + "</td></tr>");
+                    });
+                }
+            });
+
             $.ajax({
                 type: "get",
                 url: uri,
@@ -42,7 +96,7 @@
                     });
 
                     $.each(data, function (key, item) {
-                        $('#student').append("<tr><td>" + item.Id + "</td>" + "<td>" + item.Name + "</td>" + "<td>" + item.Category + "</td>" + "<td>" + item.Price + "</td></tr>");
+                        $('#prod').append("<tr><td>" + item.Id + "</td>" + "<td>" + item.Name + "</td>" + "<td>" + item.Category + "</td>" + "<td>" + item.Price + "</td></tr>");
                     });  
                 }
             })
