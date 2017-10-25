@@ -42,20 +42,17 @@
         <p id="product" />
     </div>
 
-    <div>
+    <!--<div>
         <table id="prod" cellpadding="2" cellspacing="2" border="1" >
             <tr>
                 <td style="background-color: gray; color: white">ID</td>
                 <td style="background-color: gray; color: white">Name</td>
                 <td style="background-color: gray; color: white">Category</td>
                 <td style="background-color: gray; color: white">Price</td>
-                <td>ID</td>
-                <td>Name</td>
-                <td>Category</td>
-                <td>Price</td>
             </tr>
         </table>
-    </div> 
+    </div>--> 
+
     <div>
         <table id="book" cellpadding="2" cellspacing="2" border="1">
             <tr>
@@ -86,19 +83,19 @@
                 }
             });
 
-            $.ajax({
-                type: "get",
-                url: "api/products",
-                success: function (data) {
-                    $.each(data, function (key, item) {
-                        $('<li>', { text: formatItem(item) }).appendTo($('#products'));
-                    });
+            //$.ajax({
+            //    type: "get",
+            //    url: "api/products",
+            //    success: function (data) {
+            //        $.each(data, function (key, item) {
+            //            $('<li>', { text: formatItem(item) }).appendTo($('#products'));
+            //        });
 
-                    $.each(data, function (key, item) {
-                        $('#prod').append("<tr><td>" + item.Id + "</td>" + "<td>" + item.Name + "</td>" + "<td>" + item.Category + "</td>" + "<td>" + item.Price + "</td></tr>");
-                    });  
-                }
-            })
+            //        $.each(data, function (key, item) {
+            //            $('#prod').append("<tr><td>" + item.Id + "</td>" + "<td>" + item.Name + "</td>" + "<td>" + item.Category + "</td>" + "<td>" + item.Price + "</td></tr>");
+            //        });  
+            //    }
+            //})
         });
 
     ////////$(document).ready(function () {
