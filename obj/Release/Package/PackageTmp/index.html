@@ -2,10 +2,41 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Product App</title>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+
+
 </head>
 <body>
+    <!--<script type="text/javascript">
+        var books = [
+            {
+                "title": "JavaScript, the Definitive Guide",
+                "publisher": "O'Reilly",
+                "author": "David Flanagan",
+                "cover": "/images/cover_defguide.jpg",
+                "blurb": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+            },
+            {
+                "title": "DOM Scripting",
+                "publisher": "Friends of Ed",
+                "author": "Jeremy Keith",
+                "cover": "/images/cover_domscripting.jpg",
+                "blurb": "Praesent et diam a ligula facilisis venenatis."
+            },
+            {
+                "title": "DHTML Utopia: Modern Web Design using JavaScript & DOM",
+                "publisher": "Sitepoint",
+                "author": "Stuart Langridge",
+                "cover": "/images/cover_utopia.jpg",
+                "blurb": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+            }
+        ];
+    </script>-->
 
-    <div>
+    <!--<div>
         <h2>All Products</h2>
         <ul id="products" />
     </div>
@@ -14,11 +45,10 @@
         <input type="text" id="prodId" size="5" />
         <input type="button" value="Search" onclick="find();" />
         <p id="product" />
-    </div>
+    </div>-->
 
     <div>
-        <h2>Student</h2>
-        <table id="student" cellpadding="2" cellspacing="2" border="1" width="400px">
+        <table id="prod" cellpadding="2" cellspacing="2" border="1" >
             <tr>
                 <td style="background-color: gray; color: white">ID</td>
                 <td style="background-color: gray; color: white">Name</td>
@@ -28,21 +58,46 @@
         </table>
     </div> 
 
-    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
-    <script>
-        var uri = 'api/products';
+    <div>
+        <table id="book" cellpadding="2" cellspacing="2" border="1" >
+            <tr>
+                <td style="background-color: gray; color: white">Title</td>
+                <td style="background-color: gray; color: white">Publisher</td>
+                <td style="background-color: gray; color: white">Author</td>
+                <td style="background-color: gray; color: white">Cover</td>
+            </tr>
+        </table>
+    </div> 
 
+    
+    <script>
         $(document).ready(function () {
+            //$.getJSON("books.json", function (data) {
+            //    $.each(data.books, function (i, item) {
+            //     alert(item.author);
+            //    });
+            //});
+            
             $.ajax({
                 type: "get",
-                url: uri,
+                url: "books.json",
+                success: function (data) {
+                    $.each(data.books, function (key, item) {
+                        $('#book').append("<tr><td>" + item.title + "</td>" + "<td>" + item.publisher + "</td>" + "<td>" + item.author + "</td>" + "<td>" + item.cover + "</td></tr>");
+                    });
+                }
+            });
+
+            $.ajax({
+                type: "get",
+                url: "api/products",
                 success: function (data) {
                     $.each(data, function (key, item) {
                         $('<li>', { text: formatItem(item) }).appendTo($('#products'));
                     });
 
                     $.each(data, function (key, item) {
-                        $('#student').append("<tr><td>" + item.Id + "</td>" + "<td>" + item.Name + "</td>" + "<td>" + item.Category + "</td>" + "<td>" + item.Price + "</td></tr>");
+                        $('#prod').append("<tr><td>" + item.Id + "</td>" + "<td>" + item.Name + "</td>" + "<td>" + item.Category + "</td>" + "<td>" + item.Price + "</td></tr>");
                     });  
                 }
             })
@@ -66,7 +121,7 @@
 
     function find() {
       var id = $('#prodId').val();
-      $.getJSON(uri + '/' + id)
+      $.getJSON('api/products/' + id)
           .done(function (data) {
             $('#product').text(formatItem(data));
           })
