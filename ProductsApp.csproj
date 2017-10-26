@@ -98,6 +98,7 @@
     <Content Include="packages.config" />
     <Content Include="books.json" />
     <None Include="Properties\PublishProfiles\apweb1001-prod1001 - Web Deploy.pubxml" />
+    <Content Include="weather.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
