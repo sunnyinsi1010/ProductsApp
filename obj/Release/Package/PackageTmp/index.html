@@ -59,8 +59,6 @@
     </div> 
 
     <div>
-
-
         <table id="book" cellpadding="2" cellspacing="2" border="1">
             <tr>
                 <td style="background-color: gray; color: white">Title</td>
@@ -70,72 +68,73 @@
             </tr>
         </table>
     </div> 
-    <input id="zip" width="50" type="text" placeholder="85001">
-    <button onclick="weather()">Get your weather</button>
+
     <div>
+        <input id="zip" width="50" type="text" placeholder="85001">
+        <button onclick="weather()">Get your weather</button>
         <table id="weather" cellpadding="2" cellspacing="2" border="1">
-            <tr>
+            <!--<tr>
                 <td style="background-color: gray; color: white">ID</td>
                 <td style="background-color: gray; color: white">Main</td>
                 <td style="background-color: gray; color: white">Desc</td>
                 <td style="background-color: gray; color: white">Icon</td>
-            </tr>
+                <td style="background-color: gray; color: white">Date/Time</td>
+            </tr>-->
         </table>
     </div> 
 
-
     <script>
         function weather() {
+            $("#weather tr").remove(); 
+
+            $('#weather').append(
+                "<tr><td style='background-color: gray; color: white'>ID</td> " +
+                "<td style='background-color: gray; color: white'>Main</td> " +
+                "<td style='background-color: gray; color: white'>Desc</td> "+
+                "<td style='background-color: gray; color: white'>Icon</td> "+
+                "<td style='background-color: gray; color: white'>Date/Time</td></tr>");
+
             var zipcode = $('#zip')[0].placeholder;
             if ($('#zip')[0].value)
             { zipcode = $('#zip')[0].value; }
-            var url = 'http://api.openweathermap.org/data/2.5/forecast?zip=' + zipcode + '&appid=b4145ac0513f4fc7d540541cc5ea4687';
+            var url = 'https://api.openweathermap.org/data/2.5/forecast?zip=' + zipcode + '&appid=b4145ac0513f4fc7d540541cc5ea4687';
             alert(url);
 
                 $.ajax({
                     type: "get",
                     data: 'data',
-                    dataType: 'jsonp',
-                    //url: "weather.json",
+                    //dataType: 'jsonp',
                     url: url,
                     success: function (data) {
                         $.each(data.list, function (key, value) {                            
                             $.each(value.weather, function (k, item) {  
-                                $('#weather').append("<tr><td>" +
-                                    item.id + "</td>" + "<td>" +
-                                    item.main + "</td>" + "<td>" +
-                                    item.description + "</td>" + "<td>" +
-                                    item.description + "</td>" + "<td>" +
-                                    value.dt_txt + "</td></tr>");
-                            });
-                            
+                                $('#weather').append(
+                                    "<tr><td>" + item.id + "</td>" +
+                                    "<td>" + item.main + "</td>" +
+                                    "<td>" + item.description + "</td>" +
+                                    "<td>" + "<img src='https://openweathermap.org/img/w/" + item.icon + ".png' />" + "</td>" +
+                                    "<td>" + value.dt_txt + "</td></tr>");
+                            });                            
                         });
                     }
                 });
         }
     </script>
     <script>
-        $(document).ready(function () {
-            //$.getJSON("books.json", function (data) {
-            //    $.each(data.books, function (i, item) {
-            //     alert(item.author);
-            //    });
-            //});
-            
+        $(document).ready(function () {            
             $.ajax({
                 type: "get",
                 url: "books.json",
                 success: function (data) {
                     $.each(data.books, function (key, item) {
-                        $('#book').append("<tr><td>" +
-                            item.title + "</td>" + "<td>" +
-                            item.publisher + "</td>" + "<td>" +
-                            item.author + "</td>" + "<td>" +
-                            item.cover + "</td></tr>");
+                        $('#book').append(
+                            "<tr><td>" + item.title + "</td>" +
+                            "<td>" + item.publisher + "</td>" +
+                            "<td>" + item.author + "</td>" +
+                            "<td>" + item.cover + "</td></tr>");
                     });
                 }
             });
-
 
             $.ajax({
                 type: "get",
@@ -146,28 +145,14 @@
                     //});
 
                     $.each(data, function (key, item) {
-                        $('#prod').append("<tr><td>" + item.Id + "</td>" + "<td>" + item.Name + "</td>" + "<td>" + item.Category + "</td>" + "<td>" + item.Price + "</td></tr>");
+                        $('#prod').append(
+                            "<tr><td>" + item.Id + "</td>" +
+                            "<td>" + item.Name + "</td>" +
+                            "<td>" + item.Category + "</td>" +
+                            "<td>" + item.Price + "</td></tr>");
                     });
                 }
             })
-
-            //$.ajax({
-            //    type: "get",
-            //    url: "weather.json",
-            //    success: function (data) {
-            //        $.each(data.list, function (key, item) {
-            //            $('#book').append("<tr><td>" +
-            //                item.id + "</td>" + "<td>" +
-            //                item.main + "</td>" + "<td>" +
-            //                item.description + "</td>" + "<td>" +
-            //                item.icon + "</td></tr>");
-            //        });
-            //    }
-            //});
-
-
-
-
         });
 
     ////////$(document).ready(function () {

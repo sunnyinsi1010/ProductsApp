@@ -1,13 +1,17 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Product App</title>
+    <title>https://sunnyinsi1010.github.io/webapi</title>
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
 
-
+    <style>
+        table, th, td {
+            border: 1px solid gold;
+        }
+    </style>
 </head>
 <body>
     <!--<script type="text/javascript">
@@ -50,40 +54,38 @@
     <div>
         <table id="prod" cellpadding="2" cellspacing="2" border="1" >
             <tr>
-                <td style="background-color: gray; color: white">ID</td>
-                <td style="background-color: gray; color: white">Name</td>
-                <td style="background-color: gray; color: white">Category</td>
-                <td style="background-color: gray; color: white">Price</td>
+                <th style="background-color: gray; color: white">ID</th>
+                <th style="background-color: gray; color: white">Name</th>
+                <th style="background-color: gray; color: white">Category</th>
+                <th style="background-color: gray; color: white">Price</th>
             </tr>
         </table>
     </div> 
 
     <div>
-
-
         <table id="book" cellpadding="2" cellspacing="2" border="1">
             <tr>
-                <td style="background-color: gray; color: white">Title</td>
-                <td style="background-color: gray; color: white">Publisher</td>
-                <td style="background-color: gray; color: white">Author</td>
-                <td style="background-color: gray; color: white">Cover</td>
+                <th style="background-color: gray; color: white">Title</th>
+                <th style="background-color: gray; color: white">Publisher</th>
+                <th style="background-color: gray; color: white">Author</th>
+                <th style="background-color: gray; color: white">Cover</th>
             </tr>
         </table>
     </div> 
-    <input id="zip" width="50" type="text" placeholder="85001">
-    <button onclick="weather()">Get your weather</button>
+
     <div>
+        <input id="zip" width="50" type="text" placeholder="85001">
+        <button onclick="weather()">Get your weather</button>
         <table id="weather" cellpadding="2" cellspacing="2" border="1">
-            <tr>
+            <!--<tr>
                 <td style="background-color: gray; color: white">ID</td>
                 <td style="background-color: gray; color: white">Main</td>
                 <td style="background-color: gray; color: white">Desc</td>
                 <td style="background-color: gray; color: white">Icon</td>
                 <td style="background-color: gray; color: white">Date/Time</td>
-            </tr>
+            </tr>-->
         </table>
     </div> 
-
 
     <script>
         function weather() {
@@ -91,55 +93,53 @@
             if ($('#zip')[0].value)
             { zipcode = $('#zip')[0].value; }
             var url = 'https://api.openweathermap.org/data/2.5/forecast?zip=' + zipcode + '&appid=b4145ac0513f4fc7d540541cc5ea4687';
+
             alert(url);
+
+            $("#weather tr").remove();
+
+            $('#weather').append(
+                "<tr><th style='background-color: gray; color: white'>ID</th> " +
+                "<th style='background-color: gray; color: white'>Main</th> " +
+                "<th style='background-color: gray; color: white'>Desc</th> " +
+                "<th style='background-color: gray; color: white'>Icon</th> " +
+                "<th style='background-color: gray; color: white'>Date/Time</th></tr>");
 
                 $.ajax({
                     type: "get",
                     data: 'data',
-                    dataType: 'jsonp',
-                    //url: "weather.json",
+                    //dataType: 'jsonp',
                     url: url,
                     success: function (data) {
                         $.each(data.list, function (key, value) {                            
                             $.each(value.weather, function (k, item) {  
-                                $('#weather').append("<tr><td>" +
-                                    item.id + "</td>" + "<td>" +
-                                    item.main + "</td>" + "<td>" +
-                                    item.description + "</td>" + "<td>" +
-
-                                    "<img src='https://openweathermap.org/img/w/" + item.icon + ".png' />" + "</td>" + "<td>" +
-
-                                    
-                                    value.dt_txt + "</td></tr>");
-                            });
-                            
+                                $('#weather').append(
+                                    "<tr><td>" + item.id + "</td>" +
+                                    "<td>" + item.main + "</td>" +
+                                    "<td>" + item.description + "</td>" +
+                                    "<td>" + "<img src='https://openweathermap.org/img/w/" + item.icon + ".png' />" + "</td>" +
+                                    "<td>" + value.dt_txt + "</td></tr>");
+                            });                            
                         });
                     }
                 });
         }
     </script>
     <script>
-        $(document).ready(function () {
-            //$.getJSON("books.json", function (data) {
-            //    $.each(data.books, function (i, item) {
-            //     alert(item.author);
-            //    });
-            //});
-            
+        $(document).ready(function () {            
             $.ajax({
                 type: "get",
                 url: "books.json",
                 success: function (data) {
                     $.each(data.books, function (key, item) {
-                        $('#book').append("<tr><td>" +
-                            item.title + "</td>" + "<td>" +
-                            item.publisher + "</td>" + "<td>" +
-                            item.author + "</td>" + "<td>" +
-                            item.cover + "</td></tr>");
+                        $('#book').append(
+                            "<tr><td>" + item.title + "</td>" +
+                            "<td>" + item.publisher + "</td>" +
+                            "<td>" + item.author + "</td>" +
+                            "<td>" + item.cover + "</td></tr>");
                     });
                 }
             });
-
 
             $.ajax({
                 type: "get",
@@ -150,28 +150,14 @@
                     //});
 
                     $.each(data, function (key, item) {
-                        $('#prod').append("<tr><td>" + item.Id + "</td>" + "<td>" + item.Name + "</td>" + "<td>" + item.Category + "</td>" + "<td>" + item.Price + "</td></tr>");
+                        $('#prod').append(
+                            "<tr><td>" + item.Id + "</td>" +
+                            "<td>" + item.Name + "</td>" +
+                            "<td>" + item.Category + "</td>" +
+                            "<td>" + item.Price + "</td></tr>");
                     });
                 }
             })
-
-            //$.ajax({
-            //    type: "get",
-            //    url: "weather.json",
-            //    success: function (data) {
-            //        $.each(data.list, function (key, item) {
-            //            $('#book').append("<tr><td>" +
-            //                item.id + "</td>" + "<td>" +
-            //                item.main + "</td>" + "<td>" +
-            //                item.description + "</td>" + "<td>" +
-            //                item.icon + "</td></tr>");
-            //        });
-            //    }
-            //});
-
-
-
-
         });
 
     ////////$(document).ready(function () {
